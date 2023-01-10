@@ -1,9 +1,9 @@
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { NavigationContainer } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useEffect } from "react";
-import { Platform, Text } from "react-native";
+import { Platform } from "react-native";
 import http from "./functions/http";
-import useScreen from "./hooks/useNavigation";
+import useNavigation from "./hooks/useNavigation";
 import Modal from "./layouts/Modal";
 import LoginScreen from "./screens/Login";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,7 +16,7 @@ const Init = (): JSX.Element => {
   const dispatch = useDispatch();
   const user = useSelector((x: Store) => x?.user);
   const isScreenChange = useSelector((x: Store) => x?.isScreenChange);
-  const screens = useScreen();
+  const screens = useNavigation();
 
   // 로그인 여부 확인
   const loginCheck = (): void => {

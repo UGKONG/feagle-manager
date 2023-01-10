@@ -1,11 +1,17 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components/native";
-import Container from "../../layouts/Container";
+import useModeList from "../../hooks/useModeList";
+import _Container from "../../layouts/Container";
 import HeaderLeft from "../../layouts/HeaderLeft";
 import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
+import Item1 from "./Item1";
+import Tab from "./Tab";
 
 const ModeScreen = ({ navigation }: any): JSX.Element => {
+  const [activeTab, setActiveTab] = useState<number>(1);
+  const list = useModeList(activeTab);
+
   useEffect(
     () =>
       navigation.setOptions({
@@ -18,113 +24,36 @@ const ModeScreen = ({ navigation }: any): JSX.Element => {
   );
 
   return (
-    <Container.Scroll>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-      <Section>
-        <Text>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s, when an unknown printer took a galley of type and
-          scrambled it to make a type specimen book.
-        </Text>
-      </Section>
-    </Container.Scroll>
+    <Container>
+      <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
+      <Scroll>
+        {!list?.length ? (
+          <NoneItem>
+            <NoneItemText>사용방법이 없습니다.</NoneItemText>
+          </NoneItem>
+        ) : (
+          list?.map((item) => <Item1 key={item?.id} data={item} />)
+        )}
+      </Scroll>
+    </Container>
   );
 };
 
 export default ModeScreen;
 
-const Section = styled.View`
-  margin-bottom: 50px;
+const Container = styled(_Container.View)`
+  padding: 0;
 `;
-const Img = styled.Image``;
-const Text = styled.Text`
-  width: 100%;
+const Scroll = styled(_Container.Scroll)`
+  margin-top: 10px;
+  padding: 0;
+`;
+const NoneItem = styled.View`
+  flex: 1;
+  align-items: center;
+  padding: 100px 0;
+`;
+const NoneItemText = styled.Text`
+  color: #777777;
+  font-size: 16px;
 `;

@@ -6,7 +6,7 @@ const Stack = createNativeStackNavigator();
 
 const PostStack = (): JSX.Element => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="PostScreen">
       <Stack.Screen name="PostScreen" component={PostScreen} />
       <Stack.Screen
         name="PostDetailScreen"

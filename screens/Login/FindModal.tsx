@@ -10,7 +10,6 @@ import Icon from "react-native-vector-icons/Ionicons";
 import { usePhoneNumber } from "../../functions/utils";
 import http from "../../functions/http";
 import * as Clipboard from "expo-clipboard";
-import sha256 from "sha256";
 
 const FindModal = ({ close }: FindModalProps): JSX.Element => {
   const idNameRef = useRef<TextInput>(null);
@@ -64,7 +63,6 @@ const FindModal = ({ close }: FindModalProps): JSX.Element => {
       }
 
       const result = data?.current;
-      console.log(result);
 
       alert(
         "패스워드 찾기",
@@ -105,7 +103,6 @@ const FindModal = ({ close }: FindModalProps): JSX.Element => {
 
     findPwSubmit();
   };
-  console.log(sha256("123456"));
 
   return (
     <Container>

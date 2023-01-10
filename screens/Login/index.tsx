@@ -38,7 +38,7 @@ const LoginScreen = (): JSX.Element => {
             cancelable: true,
           });
         }
-        if (dispatch) dispatch({ type: "user", payload: data?.current });
+        dispatch({ type: "user", payload: data?.current });
 
         if (IS_AUTO_LOGIN) loginSave();
       })

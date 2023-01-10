@@ -12,6 +12,8 @@ import { ServiceBtnProps } from "./index.type";
 import HeaderTitle from "../../layouts/HeaderTitle";
 import type { Store } from "../../store/index.type";
 import type { DeviceList } from "../../models";
+import MaterialIcon1 from "react-native-vector-icons/MaterialIcons";
+import MaterialIcon2 from "react-native-vector-icons/MaterialCommunityIcons";
 
 const HomeScreen = ({ navigation }: any): JSX.Element => {
   const dispatch = useDispatch();
@@ -98,15 +100,19 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
       <Title title="서비스" />
       <List>
         <ServiceBtn color="#66b8da" onPress={() => gasRequest()}>
+          <GasIcon />
           <ServiceBtnText>가스 신청</ServiceBtnText>
         </ServiceBtn>
-        <ServiceBtn color="#51bf97" onPress={() => move("ModeScreen")}>
+        <ServiceBtn color="#51bf97" onPress={() => move("Mode")}>
+          <ModeIcon />
           <ServiceBtnText>프로그램 모드</ServiceBtnText>
         </ServiceBtn>
-        <ServiceBtn color="#c8ca74" onPress={() => move("PostScreen")}>
+        <ServiceBtn color="#c8ca74" onPress={() => move("Post")}>
+          <PostIcon />
           <ServiceBtnText>자료</ServiceBtnText>
         </ServiceBtn>
-        <ServiceBtn color="#D779AB" onPress={() => move("MyinfoScreen")}>
+        <ServiceBtn color="#D779AB" onPress={() => move("Myinfo")}>
+          <MyInfoIcon />
           <ServiceBtnText>내정보</ServiceBtnText>
         </ServiceBtn>
       </List>
@@ -132,12 +138,40 @@ const ServiceBtn = styled.TouchableOpacity.attrs(() => ({
   min-width: 45%;
   min-height: 100px;
   margin: 3px;
+  position: relative;
 `;
 const ServiceBtnText = styled.Text`
   color: #ffffff;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: 2px;
   text-align: center;
   line-height: 22px;
+`;
+const btnIconStyle = `
+  font-size: 60px;
+  color: #eeeeee70;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`;
+const GasIcon = styled(MaterialIcon2).attrs(() => ({
+  name: "gas-station",
+}))`
+  ${btnIconStyle}
+`;
+const ModeIcon = styled(MaterialIcon1).attrs(() => ({
+  name: "model-training",
+}))`
+  ${btnIconStyle}
+`;
+const PostIcon = styled(MaterialIcon2).attrs(() => ({
+  name: "format-list-checkbox",
+}))`
+  ${btnIconStyle}
+`;
+const MyInfoIcon = styled(MaterialIcon2).attrs(() => ({
+  name: "information",
+}))`
+  ${btnIconStyle}
 `;

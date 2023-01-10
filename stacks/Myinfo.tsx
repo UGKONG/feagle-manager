@@ -5,7 +5,7 @@ const Stack = createNativeStackNavigator();
 
 const MyinfoStack = (): JSX.Element => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="MyinfoScreen">
       <Stack.Screen name="MyinfoScreen" component={MyinfoScreen} />
     </Stack.Navigator>
   );

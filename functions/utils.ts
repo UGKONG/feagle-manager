@@ -826,3 +826,21 @@ export const useAddress = (callback: (data: addressType) => void) => {
     );
   });
 };
+
+/**
+ * @example
+ * useFileSize(711880);
+ * // 695.0KB
+ */
+export const useFileSize = (size: number | null | undefined): string => {
+  const units = ["KB", "MB", "GB", "TB"];
+  if (!size) return "0KB";
+
+  for (let i = 0; i < units.length; i++) {
+    size = Math.floor(size / 1024);
+
+    if (size < 1024) return size.toFixed(1) + units[i];
+  }
+
+  return "0KB";
+};
