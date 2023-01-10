@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components/native";
 import useModeList from "../../hooks/useModeList";
 import _Container from "../../layouts/Container";

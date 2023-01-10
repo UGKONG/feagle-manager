@@ -8,12 +8,12 @@ import HeaderLeft from "../../layouts/HeaderLeft";
 import HeaderRight from "../../layouts/HeaderRight";
 import Title from "../../layouts/Title";
 import DeviceItem from "./DeviceItem";
-import { ServiceBtnProps } from "./index.type";
 import HeaderTitle from "../../layouts/HeaderTitle";
-import type { Store } from "../../store/index.type";
-import type { DeviceList } from "../../models";
 import MaterialIcon1 from "react-native-vector-icons/MaterialIcons";
 import MaterialIcon2 from "react-native-vector-icons/MaterialCommunityIcons";
+import type { Store } from "../../store/index.type";
+import type { DeviceList } from "../../models";
+import type { ServiceBtnProps } from "./index.type";
 
 const HomeScreen = ({ navigation }: any): JSX.Element => {
   const dispatch = useDispatch();

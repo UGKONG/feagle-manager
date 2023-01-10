@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import Badge from "../../layouts/Badge";
 import NoneImage from "../../layouts/NoneImage";
 import { imgPath } from "../../strings";
-import { DeviceItemProps } from "./index.type";
+import type { DeviceItemProps } from "./index.type";
 
 const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
   const [isImageLoadError, setIsImageLoadError] = useState<boolean>(false);
@@ -28,10 +28,10 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
   }, [data]);
 
   // 모델 이미지
-  const img = useMemo<undefined | string>(() => {
-    if (!data?.MDL_IMG_NM) return undefined;
+  const img = useMemo<null | string>(() => {
+    if (!data?.MDL_IMG_NM) return null;
     return imgPath + "/models/" + data?.MDL_IMG_NM;
-  }, [data, imgPath]);
+  }, [data?.MDL_IMG_NM]);
 
   // 장비 아이템 클릭
   const onClick = (): void => {
@@ -49,7 +49,9 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
           {!isImageLoadError && img ? (
             <Image
               source={{ uri: img }}
-              onError={() => setIsImageLoadError(true)}
+              onError={({ nativeEvent: { error } }) => {
+                setIsImageLoadError(true);
+              }}
             />
           ) : (
             <NoneImage />
@@ -58,11 +60,7 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
             <Badge
               type="red"
               text="가스부족"
-              style={{
-                fontSize: 14,
-                left: 5,
-                bottom: 5,
-              }}
+              style={{ fontSize: 14, left: 5, bottom: 5 }}
             />
           )}
         </Left>
@@ -128,6 +126,7 @@ const Right = styled.View`
 `;
 const Image = styled.Image.attrs(() => ({
   resizeMode: "cover",
+  accessible: true,
 }))`
   width: 90%;
   height: 90%;
