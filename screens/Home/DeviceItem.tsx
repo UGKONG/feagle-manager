@@ -101,7 +101,8 @@ const Container = styled.TouchableOpacity.attrs(() => ({
   background-color: #8b61dc;
   margin-bottom: 6px;
   border-radius: 5px;
-  min-height: 100px;
+  min-height: 150px;
+  max-height: 150px;
   overflow: hidden;
 `;
 const Header = styled.View`

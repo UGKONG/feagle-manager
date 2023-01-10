@@ -7,6 +7,8 @@ import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
 import { LineChart } from "react-native-chart-kit";
 import { List } from "./index.type";
+import Icon1 from "react-native-vector-icons/FontAwesome5";
+import Icon2 from "react-native-vector-icons/Foundation";
 
 const chartConfig = {
   backgroundColor: "#ffffff",
@@ -44,6 +46,13 @@ const ChartScreen = ({ navigation, route }: any): JSX.Element => {
     });
   };
 
+  // 랭킹 리스트
+  const rankList = useMemo<List[]>(() => {
+    let copy = [...list];
+    copy?.sort((a, b) => b?.VALUE - a?.VALUE);
+    return copy;
+  }, [list]);
+
   useEffect(getList, []);
   useEffect(
     () =>
@@ -59,6 +68,7 @@ const ChartScreen = ({ navigation, route }: any): JSX.Element => {
 
   return (
     <ColScroll>
+      <Description>※ 스크롤을 사용하여 통계를 볼 수 있습니다.</Description>
       <RowScroll>
         <LineChart
           data={{
@@ -75,9 +85,16 @@ const ChartScreen = ({ navigation, route }: any): JSX.Element => {
         />
       </RowScroll>
 
-      {list?.map((item) => (
+      {rankList?.map((item, i) => (
         <Section key={item?.COMM_CODE}>
-          <Title>{item?.COMM_NM}</Title>
+          <Title>
+            {!item?.VALUE ? null : i === 0 ? (
+              <KingIcon1 />
+            ) : i === 1 || i === 2 ? (
+              <KingIcon2 />
+            ) : null}{" "}
+            {item?.COMM_NM}
+          </Title>
           <Value>{item?.VALUE}회</Value>
         </Section>
       ))}
@@ -93,6 +110,11 @@ const RowScroll = styled(Container.Scroll).attrs(() => ({
 }))`
   padding: 0;
   margin-bottom: 20px;
+`;
+const Description = styled.Text`
+  font-size: 12px;
+  color: #777777;
+  margin-bottom: 10px;
 `;
 const Section = styled.View`
   margin-bottom: 20px;
@@ -112,4 +134,19 @@ const Value = styled(Text)`
   color: #666666;
   flex: 1;
   text-align: right;
+`;
+const iconStyle = `
+  font-size: 16px;
+`;
+const KingIcon1 = styled(Icon1).attrs(() => ({
+  name: "crown",
+}))`
+  ${iconStyle}
+  color: #ffa600;
+`;
+const KingIcon2 = styled(Icon2).attrs(() => ({
+  name: "crown",
+}))`
+  ${iconStyle}
+  color: #ffad3a;
 `;

@@ -69,7 +69,7 @@ const Title = styled.Text`
 const Image = styled.Image.attrs(() => ({
   resizeMode: "cover",
 }))`
-  width: 100%;
+  width: 90%;
   min-height: 300px;
   max-height: 400px;
 `;
