@@ -9,6 +9,7 @@ import { LineChart } from "react-native-chart-kit";
 import { List } from "./index.type";
 import Icon1 from "react-native-vector-icons/FontAwesome5";
 import Icon2 from "react-native-vector-icons/Foundation";
+import Pending from "../../layouts/Pending";
 
 const chartConfig = {
   backgroundColor: "#ffffff",
@@ -21,6 +22,7 @@ const chartConfig = {
 
 const ChartScreen = ({ navigation, route }: any): JSX.Element => {
   const [list, setList] = useState<List[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
   // DEVICE_SQ
   const DEVICE_SQ = useMemo(() => {
@@ -41,6 +43,7 @@ const ChartScreen = ({ navigation, route }: any): JSX.Element => {
     if (!DEVICE_SQ) return goBack();
 
     http.get("/device/useChart/" + DEVICE_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return goBack();
       setList(data?.current);
     });
@@ -63,6 +66,8 @@ const ChartScreen = ({ navigation, route }: any): JSX.Element => {
       }),
     [navigation]
   );
+
+  if (isPending) return <Pending />;
 
   if (!list?.length) return <Container.View></Container.View>;
 

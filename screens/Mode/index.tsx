@@ -5,13 +5,21 @@ import _Container from "../../layouts/Container";
 import HeaderLeft from "../../layouts/HeaderLeft";
 import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
+import Pending from "../../layouts/Pending";
 import Item1 from "./Item1";
 import Tab from "./Tab";
 
 const ModeScreen = ({ navigation }: any): JSX.Element => {
   const [activeTab, setActiveTab] = useState<number>(1);
+  const [isPending, setIsPending] = useState<boolean>(true);
   const list = useModeList(activeTab);
 
+  useEffect(() => {
+    setIsPending(true);
+    setTimeout(() => {
+      setIsPending(false);
+    }, 200);
+  }, [activeTab]);
   useEffect(
     () =>
       navigation.setOptions({
@@ -26,15 +34,19 @@ const ModeScreen = ({ navigation }: any): JSX.Element => {
   return (
     <Container>
       <Tab activeTab={activeTab} setActiveTab={setActiveTab} />
-      <Scroll>
-        {!list?.length ? (
-          <NoneItem>
-            <NoneItemText>사용방법이 없습니다.</NoneItemText>
-          </NoneItem>
-        ) : (
-          list?.map((item) => <Item1 key={item?.id} data={item} />)
-        )}
-      </Scroll>
+      {isPending ? (
+        <Pending />
+      ) : (
+        <Scroll>
+          {!list?.length ? (
+            <NoneItem>
+              <NoneItemText>사용방법이 없습니다.</NoneItemText>
+            </NoneItem>
+          ) : (
+            list?.map((item) => <Item1 key={item?.id} data={item} />)
+          )}
+        </Scroll>
+      )}
     </Container>
   );
 };

@@ -1,9 +1,8 @@
 import styled from "styled-components/native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-type Props = {
-  size?: "small" | "big";
-};
+type Props = { size?: "small" | "big" };
+
 const NoneImage = ({ size = "small" }: Props): JSX.Element => {
   return (
     <Container size={size}>
@@ -16,15 +15,7 @@ const NoneImage = ({ size = "small" }: Props): JSX.Element => {
 export default NoneImage;
 
 const Container = styled.View<Props>`
-  ${(x) =>
-    x?.size === "big"
-      ? `
-      width: 300px;
-      height: 300px;
-  `
-      : `
-    flex: 1;
-  `}
+  ${(x) => (x?.size === "big" ? `width: 300px; height: 300px;` : `flex: 1;`)}
   align-items: center;
   justify-content: center;
   padding-bottom: 20px;

@@ -10,9 +10,11 @@ import type { File, Post } from "../../models";
 import { imgPath } from "../../strings";
 import { useSelector } from "react-redux";
 import { Store } from "../../store/index.type";
+import Pending from "../../layouts/Pending";
 
 const PostDetailScreen = ({ navigation, route }: any): JSX.Element => {
   const user = useSelector((x: Store) => x?.user);
+  const [isPending, setIsPending] = useState<boolean>(true);
   const [data, setData] = useState<null | Post>(null);
 
   // POST_SQ
@@ -35,6 +37,7 @@ const PostDetailScreen = ({ navigation, route }: any): JSX.Element => {
     if (!POST_SQ) return goBack();
 
     http.get("/board/" + POST_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return goBack();
 
       setData(data?.current);
@@ -45,18 +48,9 @@ const PostDetailScreen = ({ navigation, route }: any): JSX.Element => {
   const fileDownload = (FILE_SQ: number): void => {
     const requestPath = `${imgPath}/api/file/${FILE_SQ}`;
     const requestQuery = `?TP=3&SQ=${user?.MNG_SQ}&NM=${user?.MNG_NM}`;
-    Linking.openURL(requestPath + requestQuery);
-  };
-
-  // 파일 조회
-  const getFile = (FILE_SQ: number): void => {
-    http.get("/file/" + FILE_SQ).then(({ data }) => {
-      if (data?.result === false) {
-        return Alert.alert("파일", "파일이 존재하지 않습니다.");
-      }
-
-      fileDownload(FILE_SQ);
-    });
+    Linking.openURL(requestPath + requestQuery)
+      .then(() => {})
+      .catch(() => {});
   };
 
   // 파일 클릭
@@ -69,7 +63,7 @@ const PostDetailScreen = ({ navigation, route }: any): JSX.Element => {
     let size = `(파일 사이즈: ${useFileSize(item?.FILE_SZ)})`;
     let ask = `파일을 다운로드 하시겠습니까?`;
     Alert.alert("파일", `${ask}\n\n${name}\n${size}`, [
-      { text: "예", onPress: () => getFile(item?.FILE_SQ) },
+      { text: "예", onPress: () => fileDownload(item?.FILE_SQ) },
       { text: "아니요" },
     ]);
   };
@@ -85,8 +79,10 @@ const PostDetailScreen = ({ navigation, route }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getPostData}>
       <Title>제목: {data?.POST_TTL ?? "-"}</Title>
       {data?.POST_TP_NM ? (
         <Row>

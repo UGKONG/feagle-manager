@@ -14,12 +14,15 @@ import MaterialIcon2 from "react-native-vector-icons/MaterialCommunityIcons";
 import type { Store } from "../../store/index.type";
 import type { DeviceList } from "../../models";
 import type { ServiceBtnProps } from "./index.type";
+import Pending from "../../layouts/Pending";
+import Badge from "../../layouts/Badge";
 
 const HomeScreen = ({ navigation }: any): JSX.Element => {
   const dispatch = useDispatch();
   const user = useSelector((x: Store) => x?.user);
   const isScreenChange = useSelector((x: Store) => x?.isScreenChange);
   const [deviceList, setDeviceList] = useState<DeviceList[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
   // 피부샵 SQ
   const SHOP_SQ = useMemo<null | number>(() => {
@@ -27,43 +30,58 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
     return user?.SHOP_SQ;
   }, [user]);
 
+  // 가스 부족 (하나라도 부족하면 true)
+  const isGasRaw = useMemo<boolean>(() => {
+    let result = false;
+    deviceList?.forEach((item) => {
+      let gas = item?.GAS_VAL;
+      if (gas <= 10) return (result = true);
+    });
+    return result;
+  }, [deviceList]);
+
   // 장비 리스트 조회
   const getDeviceList = (): void => {
     if (!SHOP_SQ) return;
+
     http.get("/shop/" + SHOP_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return setDeviceList([]);
       setDeviceList(data?.current?.DEVICE);
+      console.log(data?.current?.DEVICE);
     });
   };
 
   // 가스 신청
   const gasRequestSubmit = (callback?: () => void): void => {
+    const title = "가스신청";
+    const fail = "가스 신청에 실패하였습니다.";
+    const success = "해당 피부샵으로 가스가 신청되었습니다.";
+
     http.post("/gas", { SHOP_SQ }).then(({ data }) => {
       if (!data?.result) {
-        return Alert.alert(
-          "가스신청",
-          "가스 신청에 실패하였습니다.",
-          undefined,
-          { cancelable: true }
-        );
+        Alert.alert(title, fail, undefined, { cancelable: true });
+        return;
       }
 
-      Alert.alert(
-        "가스신청",
-        "해당 피부샵으로 가스가 신청되었습니다.",
-        undefined,
-        { cancelable: true }
-      );
+      Alert.alert(title, success, undefined, { cancelable: true });
       if (callback) callback();
     });
   };
 
   // 가스 신청 묻기
   const gasRequest = (callback?: () => void): void => {
-    Alert.alert("가스신청", "해당 피부샵으로 가스를 신청하시겠습니까?", [
-      { text: "예", onPress: () => gasRequestSubmit(callback) },
-      { text: "아니요" },
-    ]);
+    const raw = "가스부족 장비가 존재합니다.\n";
+    const full = "가스부족 장비가 없습니다.\n그래도 ";
+
+    Alert.alert(
+      "가스신청",
+      (isGasRaw ? raw : full) + "해당 피부샵으로 가스를 신청하시겠습니까?",
+      [
+        { text: "예", onPress: () => gasRequestSubmit(callback) },
+        { text: "아니요" },
+      ]
+    );
   };
 
   // 스크린 이동
@@ -84,8 +102,10 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
     dispatch({ type: "gasRequest", payload: gasRequest });
   }, [gasRequest]);
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getDeviceList}>
       <Title title="장비 정보" />
       <List>
         {deviceList?.map((item) => (
@@ -96,12 +116,12 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
           />
         ))}
       </List>
-
       <Title title="서비스" />
       <List>
         <ServiceBtn color="#66b8da" onPress={() => gasRequest()}>
           <GasIcon />
           <ServiceBtnText>가스 신청</ServiceBtnText>
+          {isGasRaw && <Badge text="신청필요" style={{ bottom: 5, left: 5 }} />}
         </ServiceBtn>
         <ServiceBtn color="#51bf97" onPress={() => move("Mode")}>
           <ModeIcon />

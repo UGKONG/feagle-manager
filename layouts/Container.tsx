@@ -1,7 +1,29 @@
+import { useState } from "react";
+import { RefreshControl } from "react-native";
 import styled from "styled-components/native";
 
-const Scroll = (props: any): JSX.Element => {
-  return <ScrollContainer {...props}>{props?.children}</ScrollContainer>;
+type Props = {
+  onRefresh?: () => void;
+  children?: any;
+};
+
+const Scroll = (props: Props): JSX.Element => {
+  const [isRefresh, setIsRefresh] = useState<boolean>(false);
+
+  const fn = () => {
+    setIsRefresh(true);
+    setTimeout(() => setIsRefresh(false), 1000);
+    if (props?.onRefresh) props?.onRefresh();
+  };
+
+  return (
+    <ScrollContainer
+      {...props}
+      refreshControl={<RefreshControl refreshing={isRefresh} onRefresh={fn} />}
+    >
+      {props?.children}
+    </ScrollContainer>
+  );
 };
 
 const View = (props: any): JSX.Element => {

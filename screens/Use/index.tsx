@@ -5,9 +5,11 @@ import http from "../../functions/http";
 import Container from "../../layouts/Container";
 import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
+import Pending from "../../layouts/Pending";
 import type { DeviceHistory } from "../../models";
 
 const UseScreen = ({ navigation, route }: any): JSX.Element => {
+  const [isPending, setIsPending] = useState<boolean>(true);
   const [list, setList] = useState<DeviceHistory[]>([]);
 
   // DEVICE_SQ
@@ -30,8 +32,11 @@ const UseScreen = ({ navigation, route }: any): JSX.Element => {
     if (!DEVICE_SQ) return goBack();
 
     http.get("/device/" + DEVICE_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return goBack();
-      setList(data?.current?.HISTORY);
+      const list: DeviceHistory[] = data?.current?.HISTORY;
+      const filter = list?.filter((x) => x?.UDD_TP === 1 || x?.UDD_TP === 4);
+      setList(filter);
     });
   };
 
@@ -46,8 +51,10 @@ const UseScreen = ({ navigation, route }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getList}>
       {list?.map((item) => (
         <Item key={item?.UDD_SQ}>
           <Date>{item?.UDD_CRT_DT}</Date>

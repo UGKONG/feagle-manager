@@ -11,9 +11,11 @@ import type { DeviceDetail } from "../../models";
 import DefaultBox from "./DefaultBox";
 import UseBox from "./UseBox";
 import VersionBox from "./VersionBox";
+import Pending from "../../layouts/Pending";
 
 const DeviceScreen = ({ navigation, route }: any): JSX.Element => {
   const [data, setData] = useState<null | DeviceDetail>(null);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
   // DEVICE_SQ
   const DEVICE_SQ = useMemo<null | number>(() => {
@@ -34,6 +36,7 @@ const DeviceScreen = ({ navigation, route }: any): JSX.Element => {
     if (!DEVICE_SQ) return goBack();
 
     http.get("/device/" + DEVICE_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return goBack();
       setData(data?.current);
     });
@@ -50,8 +53,10 @@ const DeviceScreen = ({ navigation, route }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getData}>
       {/* 상태뱃지, 모델 이미지, 장비명 */}
       <DeviceImgBox
         IS_ACTIVE={data?.IS_ACTIVE ? true : false}

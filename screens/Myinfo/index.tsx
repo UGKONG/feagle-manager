@@ -13,11 +13,13 @@ import MyBox from "./MyBox";
 import _Button from "../../layouts/Button";
 import styled from "styled-components/native";
 import PwModal from "./PwModal";
+import Pending from "../../layouts/Pending";
 
 const MyinfoScreen = ({ navigation, route }: any): JSX.Element => {
   const user = useSelector((x: Store) => x?.user);
   const [data, setData] = useState<null | Manager>(null);
   const [isPwModal, setIsPwModal] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
   // MNG_SQ
   const MNG_SQ = useMemo<null | number>(() => {
@@ -54,6 +56,7 @@ const MyinfoScreen = ({ navigation, route }: any): JSX.Element => {
     if (!MNG_SQ) return;
 
     http.get("/manager/" + MNG_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return goBack();
       setData(data?.current);
     });
@@ -71,8 +74,10 @@ const MyinfoScreen = ({ navigation, route }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getData}>
       {/* 피부샵 정보 */}
       <ShopBox data={data} SHOP_SQ={SHOP_SQ} alert={alert} getData={getData} />
 

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { Alert, Keyboard, TextInput } from "react-native";
+import { ActivityIndicator, Alert, Keyboard, TextInput } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
 import http from "../../functions/http";
@@ -11,6 +11,7 @@ import Modal from "../../layouts/Modal";
 import Title from "../../layouts/Title";
 import FindModal from "./FindModal";
 import sha256 from "sha256";
+import Pending from "../../layouts/Pending";
 
 const LoginScreen = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const LoginScreen = (): JSX.Element => {
   const [MNG_ID, setMNG_ID] = useState<string>("");
   const [MNG_PW, setMNG_PW] = useState<string>("");
   const [IS_AUTO_LOGIN, setIS_AUTO_LOGIN] = useState<boolean>(false);
+  const [isPending, setIsPending] = useState<boolean>(false);
 
   // 로그인 유지 (로그인 정보 저장)
   const loginSave = () => {
@@ -28,6 +30,7 @@ const LoginScreen = (): JSX.Element => {
 
   // 로그인 정보 전송
   const submit = (id?: string, pw?: string): void => {
+    setIsPending(true);
     const form = { MNG_ID: id ?? MNG_ID, MNG_PW: sha256(pw ?? MNG_PW) };
     http
       .post("/manager/login", form)
@@ -46,7 +49,8 @@ const LoginScreen = (): JSX.Element => {
         Alert.alert("로그인", "계정 정보가 없습니다.", undefined, {
           cancelable: true,
         });
-      });
+      })
+      .finally(() => setIsPending(false));
   };
 
   // 로그인 유효성 검사
@@ -115,7 +119,17 @@ const LoginScreen = (): JSX.Element => {
             </Find>
           </Options>
         </Form>
-        <Button onPress={validate}>로 그 인</Button>
+        <Button onPress={validate} readOnly={isPending}>
+          {isPending ? (
+            <ActivityIndicator
+              size={"small"}
+              color={"#fff"}
+              style={{ paddingTop: 5 }}
+            />
+          ) : (
+            "로 그 인"
+          )}
+        </Button>
       </Container>
 
       {/* 아이디 찾기 모달 */}
@@ -185,33 +199,7 @@ const GrayText = styled.Text<{ isActive?: boolean }>`
 `;
 const Button = styled(_Button)`
   width: 100%;
-`;
-const FindModalContainer = styled.TouchableOpacity.attrs(() => ({
-  activeOpacity: 1,
-}))`
-  flex: 1;
-  padding: 10px;
-`;
-const ModalTitle = styled.Text`
-  font-size: 20px;
-  font-weight: 700;
-  margin-bottom: 50px;
-  padding: 20px 0;
-`;
-const Row = styled.View`
-  margin-bottom: 40px;
-  width: 100%;
-`;
-const RowTitle = styled.Text`
-  margin-bottom: 4px;
-  font-size: 16px;
-  flex: 1;
-`;
-const FindBtnContainer = styled.View`
-  flex-direction: row;
-  width: 100%;
-`;
-const FindBtn = styled(_Button)`
-  flex: 1;
-  max-width: 50%;
+  height: 46px;
+  align-items: center;
+  justify-content: center;
 `;

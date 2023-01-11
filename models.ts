@@ -76,6 +76,7 @@ export type DeviceList = {
 export type DeviceHistory = {
   UDD_SQ: number;
   UDD_TXT: string;
+  UDD_TP: number;
   UDD_CRT_DT: string;
 };
 

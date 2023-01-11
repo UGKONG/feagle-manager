@@ -1,11 +1,15 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components/native";
 import Badge from "../../layouts/Badge";
 import NoneImage from "../../layouts/NoneImage";
+import { Os } from "../../models";
+import { Store } from "../../store/index.type";
 import { imgPath } from "../../strings";
 import type { DeviceItemProps } from "./index.type";
 
 const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
+  const os = useSelector((x: Store) => x?.os);
   const [isImageLoadError, setIsImageLoadError] = useState<boolean>(false);
 
   // 가스 잔량 (%)
@@ -39,7 +43,7 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
   };
 
   return (
-    <Container onPress={onClick}>
+    <Container os={os} onPress={onClick}>
       <Header>
         <SmallText>모델명: {data?.MDL_NM}</SmallText>
         <SmallText>일련번호: {data?.DEVICE_SN}</SmallText>
@@ -94,13 +98,13 @@ export default DeviceItem;
 
 const Container = styled.TouchableOpacity.attrs(() => ({
   activeOpacity: 0.7,
-}))`
+}))<{ os: null | Os }>`
   width: 100%;
   background-color: #8b61dc;
   margin-bottom: 6px;
   border-radius: 5px;
-  min-height: 150px;
-  max-height: 150px;
+  min-height: ${(x) => (x?.os === "ios" ? 150 : 170)}px;
+  max-height: ${(x) => (x?.os === "ios" ? 150 : 170)}px;
   overflow: hidden;
 `;
 const Header = styled.View`

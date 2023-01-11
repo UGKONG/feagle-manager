@@ -9,12 +9,14 @@ import { GasRequest, IsYes } from "../../models";
 import { Store } from "../../store/index.type";
 import Icon from "react-native-vector-icons/Ionicons";
 import { Alert, TouchableOpacity } from "react-native";
+import Pending from "../../layouts/Pending";
 
 const GasScreen = ({ navigation, route }: any): JSX.Element => {
   const user = useSelector((x: Store) => x?.user);
   const gasRequest = useSelector((x: Store) => x?.gasRequest);
   const isScreenChange = useSelector((x: Store) => x?.isScreenChange);
   const [list, setList] = useState<GasRequest[]>([]);
+  const [isPending, setIsPending] = useState<boolean>(true);
 
   // 피부샵 SQ
   const SHOP_SQ = useMemo<null | number>(() => {
@@ -25,6 +27,7 @@ const GasScreen = ({ navigation, route }: any): JSX.Element => {
   const getList = (): void => {
     if (!SHOP_SQ) return;
     http.get("/gas/" + SHOP_SQ).then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return setList([]);
       setList(data?.current);
     });
@@ -74,8 +77,10 @@ const GasScreen = ({ navigation, route }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getList}>
       <DescContainer>
         <DescTitle>상태</DescTitle>
         <Desc>

@@ -5,14 +5,17 @@ import Container from "../../layouts/Container";
 import HeaderLeft from "../../layouts/HeaderLeft";
 import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
+import Pending from "../../layouts/Pending";
 import type { Post } from "../../models";
 
 const PostScreen = ({ navigation }: any): JSX.Element => {
+  const [isPending, setIsPending] = useState<boolean>(true);
   const [postList, setPostList] = useState<Post[]>([]);
 
   // 자료 리스트 조회
   const getPostList = (): void => {
     http.get("/board?POST_TP=post").then(({ data }) => {
+      setIsPending(false);
       if (!data?.result) return setPostList([]);
       setPostList(data?.current);
     });
@@ -35,8 +38,10 @@ const PostScreen = ({ navigation }: any): JSX.Element => {
     [navigation]
   );
 
+  if (isPending) return <Pending />;
+
   return (
-    <Container.Scroll>
+    <Container.Scroll onRefresh={getPostList}>
       {postList?.map((item) => (
         <PostItem
           key={item?.POST_SQ}

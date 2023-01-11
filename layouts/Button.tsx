@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 
-type ButtonProps = { readOnly: boolean };
 const Button = (props: any): JSX.Element => {
   return (
     <Container {...props}>
@@ -11,12 +10,11 @@ const Button = (props: any): JSX.Element => {
 
 export default Button;
 
-const Container = styled.TouchableOpacity.attrs(() => ({
-  activeOpacity: 0.7,
-}))`
-  border: 1px solid #8b61dc;
-  background-color: ${(x: ButtonProps) =>
-    x?.readOnly ? "#7a6b99" : "#8863d2"};
+const Container = styled.TouchableOpacity.attrs<{ readOnly: boolean }>((x) => ({
+  activeOpacity: x?.readOnly ? 1 : 0.7,
+}))<{ readOnly: boolean }>`
+  border: 1px solid ${(x) => (x?.readOnly ? "#716191" : "#8b61dc")};
+  background-color: ${(x) => (x?.readOnly ? "#7a6b99" : "#8863d2")};
   padding: 12px;
   border-radius: 4px;
 `;
