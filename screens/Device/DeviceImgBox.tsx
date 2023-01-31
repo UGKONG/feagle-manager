@@ -10,7 +10,7 @@ const DeviceImgBox = ({
   IS_ACTIVE,
   GAS_VAL = 0,
   MDL_IMG_NM = undefined,
-  DEVICE_NM = "DEVICE",
+  DEVICE_SN = "DEVICE",
 }: DeviceImgBoxProps): JSX.Element => {
   const [isImageLoadError, setIsImageLoadError] = useState<boolean>(false);
 
@@ -34,7 +34,7 @@ const DeviceImgBox = ({
       {GAS_VAL <= 10 && (
         <Badge style={{ top: 10, right: 10 }} text="가스부족" type="red" />
       )}
-      <Title>{DEVICE_NM}</Title>
+      <Title>{DEVICE_SN}</Title>
       {!isImageLoadError && img ? (
         <Image
           source={{ uri: img }}

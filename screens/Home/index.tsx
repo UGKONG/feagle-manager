@@ -48,7 +48,6 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
       setIsPending(false);
       if (!data?.result) return setDeviceList([]);
       setDeviceList(data?.current?.DEVICE);
-      console.log(data?.current?.DEVICE);
     });
   };
 
@@ -123,9 +122,13 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
           <ServiceBtnText>가스 신청</ServiceBtnText>
           {isGasRaw && <Badge text="신청필요" style={{ bottom: 5, left: 5 }} />}
         </ServiceBtn>
+        <ServiceBtn color="#668fda" onPress={() => move("Gas")}>
+          <GasReqListIcon />
+          <ServiceBtnText>가스 신청 내역</ServiceBtnText>
+        </ServiceBtn>
         <ServiceBtn color="#51bf97" onPress={() => move("Mode")}>
           <ModeIcon />
-          <ServiceBtnText>프로그램 모드</ServiceBtnText>
+          <ServiceBtnText>프로그램 모드 사용방법</ServiceBtnText>
         </ServiceBtn>
         <ServiceBtn color="#c8ca74" onPress={() => move("Post")}>
           <PostIcon />
@@ -166,10 +169,12 @@ const ServiceBtnText = styled.Text`
   font-weight: 700;
   letter-spacing: 2px;
   text-align: center;
-  line-height: 22px;
+  line-height: 24px;
+  word-break: keep-all;
+  padding: 0 20px;
 `;
 const btnIconStyle = `
-  font-size: 60px;
+  font-size: 50px;
   color: #eeeeee70;
   position: absolute;
   right: 0;
@@ -177,6 +182,11 @@ const btnIconStyle = `
 `;
 const GasIcon = styled(MaterialIcon2).attrs(() => ({
   name: "gas-station",
+}))`
+  ${btnIconStyle}
+`;
+const GasReqListIcon = styled(MaterialIcon2).attrs(() => ({
+  name: "playlist-check",
 }))`
   ${btnIconStyle}
 `;

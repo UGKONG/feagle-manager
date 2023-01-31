@@ -59,7 +59,6 @@ export type DeviceList = {
   SHOP_SQ: number;
   SHOP_NM: string;
   DEVICE_SN: string;
-  DEVICE_NM: string;
   DEVICE_SW_VN: string;
   DEVICE_FW_VN: string;
   DEVICE_BUY_DT: string;
@@ -94,7 +93,6 @@ export type DeviceDetail = {
   SHOP_ADD: string;
   SHOP_ADD_DTL: string;
   DEVICE_SN: string;
-  DEVICE_NM: string;
   DEVICE_SW_VN: string;
   DEVICE_FW_VN: string;
   DEVICE_BUY_DT: string;

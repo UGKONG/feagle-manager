@@ -26,7 +26,7 @@ const ModeScreen = ({ navigation }: any): JSX.Element => {
         headerTitleAlign: "center",
         headerLeft: () => <HeaderLeft navigation={navigation} />,
         headerRight: () => <HeaderRight />,
-        headerTitle: () => <HeaderTitle title="프로그램 모드" />,
+        headerTitle: () => <HeaderTitle title="프로그램 모드 사용방법" />,
       }),
     [navigation]
   );

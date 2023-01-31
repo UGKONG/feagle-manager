@@ -62,7 +62,7 @@ const DeviceScreen = ({ navigation, route }: any): JSX.Element => {
         IS_ACTIVE={data?.IS_ACTIVE ? true : false}
         GAS_VAL={data?.GAS_VAL}
         MDL_IMG_NM={data?.MDL_IMG_NM}
-        DEVICE_NM={data?.DEVICE_NM}
+        DEVICE_SN={data?.DEVICE_SN}
       />
 
       {/* 모델명, 일련번호, 구매일자, 설치일자 */}

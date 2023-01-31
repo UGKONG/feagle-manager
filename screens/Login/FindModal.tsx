@@ -32,9 +32,9 @@ const FindModal = ({ close }: FindModalProps): JSX.Element => {
 
   // 복사
   const copy = (text: string): void => {
-    Clipboard.setStringAsync(text).then((isTrue) => {
-      console.log(isTrue, text);
-    });
+    Clipboard.setStringAsync(text)
+      .then(() => {})
+      .catch(() => {});
   };
 
   // 아이디 찾기

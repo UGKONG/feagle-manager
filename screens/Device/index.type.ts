@@ -9,7 +9,7 @@ export type DeviceImgBoxProps = {
   IS_ACTIVE: boolean;
   GAS_VAL?: number;
   MDL_IMG_NM?: string;
-  DEVICE_NM?: string;
+  DEVICE_SN?: string;
 };
 export type DefaultBoxProps = {
   MDL_NM?: string;

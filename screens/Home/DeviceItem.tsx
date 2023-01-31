@@ -70,10 +70,9 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
         </Left>
         <Right>
           <Large>
-            <LargeText>장비 별칭: {data?.DEVICE_NM}</LargeText>
             <LargeText>총 사용 시간: {useTime}</LargeText>
           </Large>
-          <SmallText>가스</SmallText>
+          <SmallText>가스 잔량</SmallText>
           <Gas>
             <GasProgress>
               <GasProgressBar width={remainGas} color={gasColor} />
@@ -103,8 +102,8 @@ const Container = styled.TouchableOpacity.attrs(() => ({
   background-color: #8b61dc;
   margin-bottom: 6px;
   border-radius: 5px;
-  min-height: ${(x) => (x?.os === "ios" ? 150 : 170)}px;
-  max-height: ${(x) => (x?.os === "ios" ? 150 : 170)}px;
+  min-height: ${(x) => (x?.os === "ios" ? 130 : 140)}px;
+  max-height: ${(x) => (x?.os === "ios" ? 130 : 140)}px;
   overflow: hidden;
 `;
 const Header = styled.View`
