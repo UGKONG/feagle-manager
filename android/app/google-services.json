@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "689421777158",
+    "project_id": "feagle",
+    "storage_bucket": "feagle.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689421777158:android:61ca35954421b4663a0687",
+        "android_client_info": {
+          "package_name": "com.jsw9330.feaglemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689421777158-6hfsne0og0g1bdubt57phuqquiqcbp5f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdlWuuz1tJ4pTCU7-q8xb5DlBg8JRDmSg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689421777158-6hfsne0og0g1bdubt57phuqquiqcbp5f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

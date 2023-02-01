@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert } from "react-native";
+import { Alert, Platform } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import http from "../../functions/http";
@@ -16,6 +16,13 @@ import type { DeviceList } from "../../models";
 import type { ServiceBtnProps } from "./index.type";
 import Pending from "../../layouts/Pending";
 import Badge from "../../layouts/Badge";
+import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import PushNotificationAndroid from "react-native-push-notification";
+
+const OS = Platform.OS;
+
+const gasRawTitle = "가스부족";
+const gasRawText = "가스가 부족한 장비가 존재합니다.\n가스를 신청해주세요.";
 
 const HomeScreen = ({ navigation }: any): JSX.Element => {
   const dispatch = useDispatch();
@@ -88,6 +95,37 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
     navigation.navigate(name);
   };
 
+  // 푸쉬 테스트 (IOS)
+  const iosPush = (): void => {
+    PushNotificationIOS.scheduleLocalNotification({
+      alertTitle: gasRawTitle,
+      alertBody: gasRawText,
+      fireDate: new Date()?.toISOString(),
+    });
+  };
+
+  // 푸쉬 테스트 (Android)
+  const androidPush = (): void => {
+    PushNotificationAndroid.localNotification({
+      channelId: "push",
+      title: gasRawTitle,
+      message: gasRawText,
+      allowWhileIdle: true,
+    });
+  };
+
+  // 가스 없으면 알림
+  const gasRawPush = (): void => {
+    if (!isGasRaw || !user) return;
+
+    if (OS === "ios") {
+      iosPush();
+    } else if (OS === "android") {
+      androidPush();
+    }
+  };
+
+  useEffect(gasRawPush, [isGasRaw]);
   useEffect(getDeviceList, [user, isScreenChange]);
   useEffect(() => {
     navigation.setOptions({
@@ -107,13 +145,19 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
     <Container.Scroll onRefresh={getDeviceList}>
       <Title title="장비 정보" />
       <List>
-        {deviceList?.map((item) => (
-          <DeviceItem
-            key={item?.DEVICE_SQ}
-            data={item}
-            navigate={navigation.navigate}
-          />
-        ))}
+        {!deviceList?.length ? (
+          <NoneItem>
+            <NoneItemText>보유중인 장비가 없습니다.</NoneItemText>
+          </NoneItem>
+        ) : (
+          deviceList?.map((item) => (
+            <DeviceItem
+              key={item?.DEVICE_SQ}
+              data={item}
+              navigate={navigation.navigate}
+            />
+          ))
+        )}
       </List>
       <Title title="서비스" />
       <List>
@@ -204,4 +248,14 @@ const MyInfoIcon = styled(MaterialIcon2).attrs(() => ({
   name: "information",
 }))`
   ${btnIconStyle}
+`;
+const NoneItem = styled.View`
+  width: 100%;
+  height: 100px;
+  align-items: center;
+  justify-content: center;
+`;
+const NoneItemText = styled.Text`
+  color: #777777;
+  font-size: 16px;
 `;

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>689421777158-1f1umr7jh3grpl455toqvm7lbufumvmt.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.689421777158-1f1umr7jh3grpl455toqvm7lbufumvmt</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA6Cf4yRhUv_3MEUhVY3zP6rzCDUsiITkg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>689421777158</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.jsw9330.feaglemanager</string>
+	<key>PROJECT_ID</key>
+	<string>feagle</string>
+	<key>STORAGE_BUCKET</key>
+	<string>feagle.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:689421777158:ios:4384ba5b1c2488723a0687</string>
+</dict>
+</plist>

@@ -8,6 +8,11 @@
 
 #import <React/RCTAppSetupUtils.h>
 
+#import "RNSplashScreen.h"
+
+#import <UserNotifications/UserNotifications.h>
+#import <RNCPushNotificationIOS.h>
+
 #if RCT_NEW_ARCH_ENABLED
 #import <React/CoreModulesPlugins.h>
 #import <React/RCTCxxBridgeDelegate.h>
@@ -17,8 +22,6 @@
 #import <ReactCommon/RCTTurboModuleManager.h>
 
 #import <react/config/ReactNativeConfig.h>
-
-// #import "RNSplashScreen.h"
 
 static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
@@ -59,9 +62,19 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
-  // [RNSplashScreen show];
+  [RNSplashScreen show];
+  UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter]; // 추가
+  center.delegate = self; // 추가
+
   return YES;
 }
+
+// 추가
+-(void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions options))completionHandler
+{
+  completionHandler(UNNotificationPresentationOptionSound | UNNotificationPresentationOptionAlert | UNNotificationPresentationOptionBadge);
+}
+//
 
 - (NSArray<id<RCTBridgeModule>> *)extraModulesForBridge:(RCTBridge *)bridge
 {
@@ -112,20 +125,30 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 {
+  [RNCPushNotificationIOS didRegisterForRemoteNotificationsWithDeviceToken:deviceToken]; // 추가
   return [super application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
+  [RNCPushNotificationIOS didFailToRegisterForRemoteNotificationsWithError:error];
   return [super application:application didFailToRegisterForRemoteNotificationsWithError:error];
 }
 
 // Explicitly define remote notification delegates to ensure compatibility with some third-party libraries
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler
 {
+  [RNCPushNotificationIOS didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler]; // 추가
   return [super application:application didReceiveRemoteNotification:userInfo fetchCompletionHandler:completionHandler];
 }
+
+// 추가
+- (void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler
+{
+  return [RNCPushNotificationIOS didReceiveNotificationResponse:response];
+}
+//
 
 #if RCT_NEW_ARCH_ENABLED
 

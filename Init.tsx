@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import http from "./functions/http";
 import useNavigation from "./hooks/useNavigation";
@@ -8,15 +8,30 @@ import Modal from "./layouts/Modal";
 import LoginScreen from "./screens/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { Store } from "./store/index.type";
+import PushNotificationIOS, {
+  PushNotification,
+  PushNotificationPermissions,
+} from "@react-native-community/push-notification-ios";
+import PushNotificationAndroid from "react-native-push-notification";
+import SplashScreen from "react-native-splash-screen";
 
 const Drawer = createDrawerNavigator();
 const OS = Platform.OS;
 
 const Init = (): JSX.Element => {
   const dispatch = useDispatch();
+  const screens = useNavigation();
   const user = useSelector((x: Store) => x?.user);
   const isScreenChange = useSelector((x: Store) => x?.isScreenChange);
-  const screens = useNavigation();
+  const gasRequest = useSelector((x: Store) => x?.gasRequest);
+
+  // 푸쉬알림
+  const onRemoteNotification = (notification: PushNotification) => {
+    if (gasRequest) gasRequest();
+
+    const result = PushNotificationIOS.FetchResult.NoData;
+    notification.finish(result);
+  };
 
   // 로그인 여부 확인
   const loginCheck = (): void => {
@@ -26,8 +41,26 @@ const Init = (): JSX.Element => {
     });
   };
 
+  // 푸쉬 권한 얻기
+  const iosRequestPermissions = (): void => {
+    PushNotificationIOS.checkPermissions((res: PushNotificationPermissions) => {
+      if (res?.alert) return;
+
+      PushNotificationIOS.requestPermissions({
+        alert: true,
+        badge: true,
+        sound: true,
+      });
+    });
+  };
+
   // 앱 초기화 (기본정보 저장)
   const init = (): void => {
+    SplashScreen.hide();
+    if (OS === "ios") {
+      iosRequestPermissions();
+    }
+
     const icon = OS === "android" ? "🇰🇷" : "🇺🇸";
     const result = `${icon} ${OS} Reloaded`;
     console.log(result);
@@ -42,6 +75,17 @@ const Init = (): JSX.Element => {
   };
 
   useEffect(init, []);
+  useEffect(() => {
+    PushNotificationIOS.addEventListener("notification", onRemoteNotification);
+    PushNotificationIOS.addEventListener(
+      "localNotification",
+      onRemoteNotification
+    );
+    return () => {
+      PushNotificationIOS.removeEventListener("notification");
+      PushNotificationIOS.removeEventListener("localNotification");
+    };
+  });
 
   return (
     <>

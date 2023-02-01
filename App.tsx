@@ -4,6 +4,19 @@ import * as SplashScreen from "expo-splash-screen";
 import Init from "./Init";
 import store from "./store";
 import { useEffect } from "react";
+import PushNotification, { Importance } from "react-native-push-notification";
+
+PushNotification.configure({
+  popInitialNotification: true,
+  requestPermissions: true,
+});
+PushNotification.createChannel(
+  {
+    channelId: "push",
+    channelName: "push",
+  },
+  (created) => console.log(created)
+);
 
 SplashScreen.preventAutoHideAsync();
 

@@ -28,7 +28,8 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
   // 총 누적 사용 시간
   const useTime = useMemo<string>(() => {
     if (!data?.USE_TM_VAL) return "0시간";
-    return data?.USE_TM_VAL + "시간";
+    let result = data?.USE_TM_VAL?.toFixed(1);
+    return result + "시간";
   }, [data]);
 
   // 모델 이미지
@@ -77,7 +78,7 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
             <GasProgress>
               <GasProgressBar width={remainGas} color={gasColor} />
             </GasProgress>
-            <SmallText>{remainGas}%</SmallText>
+            <SmallText>{remainGas?.toFixed(0)}%</SmallText>
           </Gas>
           <Small>
             <SmallText style={{ marginLeft: 10 }}>
