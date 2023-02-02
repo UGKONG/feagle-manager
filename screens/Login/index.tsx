@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { ActivityIndicator, Alert, Keyboard, TextInput } from "react-native";
+import {
+  ActivityIndicator,
+  Alert,
+  Keyboard,
+  Platform,
+  TextInput,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styled from "styled-components/native";
 import http from "../../functions/http";
@@ -8,10 +14,12 @@ import _Container from "../../layouts/Container";
 import _Button from "../../layouts/Button";
 import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "../../layouts/Modal";
-import Title from "../../layouts/Title";
 import FindModal from "./FindModal";
 import sha256 from "sha256";
-import Pending from "../../layouts/Pending";
+import uuid from "react-native-uuid";
+
+const OS = Platform.OS;
+const UUID = uuid.v4();
 
 const LoginScreen = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -31,7 +39,14 @@ const LoginScreen = (): JSX.Element => {
   // 로그인 정보 전송
   const submit = (id?: string, pw?: string): void => {
     setIsPending(true);
-    const form = { MNG_ID: id ?? MNG_ID, MNG_PW: sha256(pw ?? MNG_PW) };
+
+    const form = {
+      MNG_ID: id ?? MNG_ID,
+      MNG_PW: sha256(pw ?? MNG_PW),
+      OS,
+      UUID,
+    };
+
     http
       .post("/manager/login", form)
       .then(({ data }) => {

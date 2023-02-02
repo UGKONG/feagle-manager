@@ -47,6 +47,7 @@ const PostScreen = ({ navigation }: any): JSX.Element => {
           key={item?.POST_SQ}
           onPress={() => move("PostDetailScreen", { POST_SQ: item?.POST_SQ })}
         >
+          <Category>{item?.POST_TP_NM}</Category>
           <Name>{item?.POST_TTL}</Name>
           <Date>{item?.POST_CRT_DT}</Date>
         </PostItem>
@@ -68,6 +69,10 @@ const PostItem = styled.TouchableOpacity.attrs(() => ({
 `;
 const Text = styled.Text`
   color: #ffffff;
+`;
+const Category = styled(Text)`
+  font-size: 11px;
+  margin-bottom: 4px;
 `;
 const Name = styled(Text)`
   font-size: 16px;

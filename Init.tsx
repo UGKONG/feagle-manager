@@ -12,7 +12,6 @@ import PushNotificationIOS, {
   PushNotification,
   PushNotificationPermissions,
 } from "@react-native-community/push-notification-ios";
-import PushNotificationAndroid from "react-native-push-notification";
 import SplashScreen from "react-native-splash-screen";
 
 const Drawer = createDrawerNavigator();
@@ -57,12 +56,10 @@ const Init = (): JSX.Element => {
   // 앱 초기화 (기본정보 저장)
   const init = (): void => {
     SplashScreen.hide();
-    if (OS === "ios") {
-      iosRequestPermissions();
-    }
+    if (OS === "ios") iosRequestPermissions();
 
     const icon = OS === "android" ? "🇰🇷" : "🇺🇸";
-    const result = `${icon} ${OS} Reloaded`;
+    const result = `${icon} ${OS} Reloaded!`;
     console.log(result);
 
     dispatch({ type: "os", payload: OS });

@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Dimensions } from "react-native";
 import {
   Article,
@@ -21,7 +21,7 @@ type Props = {
   data: Memo;
 };
 
-const Item1 = ({ data }: Props): JSX.Element => {
+const Item = ({ data }: Props): JSX.Element => {
   const height = useMemo<number>(() => {
     const { width } = Dimensions.get("window");
     const result = width * 0.443;
@@ -64,4 +64,4 @@ const Item1 = ({ data }: Props): JSX.Element => {
   );
 };
 
-export default Item1;
+export default Item;

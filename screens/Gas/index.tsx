@@ -96,7 +96,7 @@ const GasScreen = ({ navigation, route }: any): JSX.Element => {
           isCheck={item?.IS_CHK}
           onPress={() => requestClick(item)}
         >
-          <Name>상태: {item?.IS_CHK ? "확인됨" : "신청중"}</Name>
+          <Name>상태: {item?.IS_CHK ? "확인" : "신청"}</Name>
           <Date>신청일: {item?.GR_CRT_DT}</Date>
           {item?.IS_CHK ? <Date>확인일: {item?.GR_MOD_DT}</Date> : null}
         </Item>

@@ -6,11 +6,11 @@ import Container from "../../layouts/Container";
 import HeaderRight from "../../layouts/HeaderRight";
 import HeaderTitle from "../../layouts/HeaderTitle";
 import Pending from "../../layouts/Pending";
-import type { DeviceHistory } from "../../models";
+import type { History } from "../../models";
 
 const UseScreen = ({ navigation, route }: any): JSX.Element => {
   const [isPending, setIsPending] = useState<boolean>(true);
-  const [list, setList] = useState<DeviceHistory[]>([]);
+  const [list, setList] = useState<History[]>([]);
 
   // DEVICE_SQ
   const DEVICE_SQ = useMemo(() => {
@@ -34,9 +34,7 @@ const UseScreen = ({ navigation, route }: any): JSX.Element => {
     http.get("/device/" + DEVICE_SQ).then(({ data }) => {
       setIsPending(false);
       if (!data?.result) return goBack();
-      const list: DeviceHistory[] = data?.current?.HISTORY;
-      const filter = list?.filter((x) => x?.UDD_TP === 1 || x?.UDD_TP === 4);
-      setList(filter);
+      setList(data?.current?.HISTORY);
     });
   };
 
@@ -56,9 +54,9 @@ const UseScreen = ({ navigation, route }: any): JSX.Element => {
   return (
     <Container.Scroll onRefresh={getList}>
       {list?.map((item) => (
-        <Item key={item?.UDD_SQ}>
-          <Date>{item?.UDD_CRT_DT}</Date>
-          <Desc>{item?.UDD_TXT}</Desc>
+        <Item key={item?.HIS_SQ}>
+          <Date>{item?.HIS_DT}</Date>
+          <Desc>{item?.HIS_CN}</Desc>
         </Item>
       ))}
     </Container.Scroll>

@@ -71,13 +71,12 @@ export type DeviceList = {
   PLA_VAL: number;
 };
 
-// 장비 히스토리
-export type DeviceHistory = {
-  UDD_SQ: number;
-  UDD_TXT: string;
-  UDD_TP: number;
-  UDD_CRT_DT: string;
-};
+// 히스토리
+export interface History {
+  HIS_SQ: number;
+  HIS_CN: string;
+  HIS_DT: string;
+}
 
 // 장비 상세정보
 export type DeviceDetail = {
@@ -105,7 +104,7 @@ export type DeviceDetail = {
   GAS_VAL: number;
   GAS1_VAL: number;
   GAS2_VAL: number;
-  HISTORY: DeviceHistory[];
+  HISTORY: History[];
 };
 
 // 파일 리스트
@@ -146,4 +145,13 @@ export type GasRequest = {
   IS_CHK: IsYes;
   GR_MOD_DT: string;
   GR_CRT_DT: string;
+};
+
+// 모드
+export type Mode = {
+  MD_SQ: number;
+  MD_NM: string;
+  MD_IMG: string;
+  MD_MTRL: string;
+  MD_STEPS: string;
 };
