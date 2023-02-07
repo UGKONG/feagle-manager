@@ -14,16 +14,14 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
 
   // 가스 잔량 (%)
   const remainGas = useMemo<number>(() => {
-    if (!data?.GAS_VAL) return 0;
-    return data?.GAS_VAL;
+    return data?.GAS_VAL ?? 0;
   }, [data]);
 
   // 가스 색상
   const gasColor = useMemo<string>(() => {
-    if (remainGas <= 5) return "#d54141";
-    if (remainGas <= 10) return "#d35f29";
-    return "#1BC24A";
-  }, [remainGas]);
+    const isDanger = data?.IS_GAS_DANGER ?? 0;
+    return isDanger ? "#d54141" : "#1BC24A";
+  }, [data]);
 
   // 총 누적 사용 시간
   const useTime = useMemo<string>(() => {
@@ -61,7 +59,7 @@ const DeviceItem = ({ data, navigate }: DeviceItemProps): JSX.Element => {
           ) : (
             <NoneImage />
           )}
-          {remainGas <= 10 && (
+          {(data?.IS_GAS_DANGER ?? 0) > 0 && (
             <Badge
               type="red"
               text="가스부족"
@@ -129,11 +127,11 @@ const Right = styled.View`
   padding: 0 10px 5px 0;
 `;
 const Image = styled.Image.attrs(() => ({
-  resizeMode: "cover",
+  resizeMode: "contain",
   accessible: true,
 }))`
-  width: 90%;
-  height: 90%;
+  width: 100%;
+  height: 100%;
 `;
 const Text = styled.Text`
   color: #ffffff;

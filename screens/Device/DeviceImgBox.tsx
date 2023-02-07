@@ -11,6 +11,7 @@ const DeviceImgBox = ({
   GAS_VAL = 0,
   MDL_IMG_NM = undefined,
   DEVICE_SN = "DEVICE",
+  IS_GAS_DANGER = 0,
 }: DeviceImgBoxProps): JSX.Element => {
   const [isImageLoadError, setIsImageLoadError] = useState<boolean>(false);
 
@@ -21,9 +22,7 @@ const DeviceImgBox = ({
 
   // 가스 색상
   const gasColor = useMemo<string>(() => {
-    if (GAS_VAL <= 5) return "#d54141";
-    if (GAS_VAL <= 10) return "#d35f29";
-    return "#10cd46";
+    return IS_GAS_DANGER ? "#d54141" : "#10cd46";
   }, [GAS_VAL]);
 
   return (

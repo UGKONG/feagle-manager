@@ -1,34 +1,77 @@
 {
   "project_info": {
-    "project_number": "689421777158",
-    "project_id": "feagle",
-    "storage_bucket": "feagle.appspot.com"
+    "project_number": "597038642642",
+    "project_id": "dr-care-51a48",
+    "storage_bucket": "dr-care-51a48.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:689421777158:android:61ca35954421b4663a0687",
+        "mobilesdk_app_id": "1:597038642642:android:72ce5e554e4259292c840b",
         "android_client_info": {
-          "package_name": "com.jsw9330.feaglemanager"
+          "package_name": "com.drcareunion"
         }
       },
       "oauth_client": [
         {
-          "client_id": "689421777158-6hfsne0og0g1bdubt57phuqquiqcbp5f.apps.googleusercontent.com",
+          "client_id": "597038642642-e6l6gepfaaif1tlpvpujgf1difr2ocl6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDdlWuuz1tJ4pTCU7-q8xb5DlBg8JRDmSg"
+          "current_key": "AIzaSyC16qKx54ESlhGGRKVtHbSRVccpuwcGKkI"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "689421777158-6hfsne0og0g1bdubt57phuqquiqcbp5f.apps.googleusercontent.com",
+              "client_id": "597038642642-e6l6gepfaaif1tlpvpujgf1difr2ocl6.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "597038642642-52875bthvd6gvbr2ph9arvfj2it1no2v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.DrCareUnion"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597038642642:android:c71539428a39af792c840b",
+        "android_client_info": {
+          "package_name": "com.jsw9330.feaglemanager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597038642642-e6l6gepfaaif1tlpvpujgf1difr2ocl6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC16qKx54ESlhGGRKVtHbSRVccpuwcGKkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597038642642-e6l6gepfaaif1tlpvpujgf1difr2ocl6.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "597038642642-52875bthvd6gvbr2ph9arvfj2it1no2v.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.DrCareUnion"
+              }
             }
           ]
         }

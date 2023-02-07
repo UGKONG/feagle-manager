@@ -1,28 +1,27 @@
 import { StatusBar } from "react-native";
 import { Provider } from "react-redux";
-import * as SplashScreen from "expo-splash-screen";
+import * as SplashScreenIOS from "expo-splash-screen";
 import Init from "./Init";
 import store from "./store";
 import { useEffect } from "react";
-import PushNotification, { Importance } from "react-native-push-notification";
+import PushNotification from "react-native-push-notification";
+import SplashScreen from "react-native-splash-screen";
 
-PushNotification.configure({
+const notificationOptions = {
   popInitialNotification: true,
   requestPermissions: true,
-});
-PushNotification.createChannel(
-  {
-    channelId: "push",
-    channelName: "push",
-  },
-  (created) => console.log(created)
-);
+};
+const channelOptions = { channelId: "push", channelName: "push" };
 
-SplashScreen.preventAutoHideAsync();
+PushNotification.configure(notificationOptions);
+PushNotification.createChannel(channelOptions, () => {});
 
 const App = (): JSX.Element => {
   useEffect(() => {
-    SplashScreen.hideAsync();
+    SplashScreenIOS.hideAsync()
+      .then(() => {})
+      .catch(() => {});
+    SplashScreen.hide();
   }, []);
 
   return (

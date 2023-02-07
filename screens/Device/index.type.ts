@@ -10,6 +10,7 @@ export type DeviceImgBoxProps = {
   GAS_VAL?: number;
   MDL_IMG_NM?: string;
   DEVICE_SN?: string;
+  IS_GAS_DANGER?: number;
 };
 export type DefaultBoxProps = {
   MDL_NM?: string;

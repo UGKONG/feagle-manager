@@ -63,6 +63,7 @@ const DeviceScreen = ({ navigation, route }: any): JSX.Element => {
         GAS_VAL={data?.GAS_VAL}
         MDL_IMG_NM={data?.MDL_IMG_NM}
         DEVICE_SN={data?.DEVICE_SN}
+        IS_GAS_DANGER={data?.IS_GAS_DANGER}
       />
 
       {/* 모델명, 일련번호, 구매일자, 설치일자 */}

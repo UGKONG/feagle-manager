@@ -1,3 +1,5 @@
+import { FirebaseMessagingTypes } from "@react-native-firebase/messaging";
+
 // Yes Or No
 export type IsYes = 0 | 1;
 
@@ -69,6 +71,8 @@ export type DeviceList = {
   ON_COUNT: number;
   DEVICE_LAST_DT: string;
   PLA_VAL: number;
+  IS_GAS_DANGER?: number;
+  IS_PLA_DANGER?: number;
 };
 
 // 히스토리
@@ -105,6 +109,8 @@ export type DeviceDetail = {
   GAS1_VAL: number;
   GAS2_VAL: number;
   HISTORY: History[];
+  IS_GAS_DANGER?: number;
+  IS_PLA_DANGER?: number;
 };
 
 // 파일 리스트
@@ -154,4 +160,15 @@ export type Mode = {
   MD_IMG: string;
   MD_MTRL: string;
   MD_STEPS: string;
+};
+
+// 백그라운드 푸쉬
+export type PushMessage = {
+  collapseKey?: string;
+  data?: { [key: string]: string };
+  from?: string;
+  messageId?: string;
+  notification?: FirebaseMessagingTypes.Notification; // { android: {}; body: string; title: string };
+  sentTime?: number;
+  ttl?: number;
 };

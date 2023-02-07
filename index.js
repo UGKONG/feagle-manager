@@ -1,8 +1,18 @@
-import { registerRootComponent } from 'expo';
+import messaging from "@react-native-firebase/messaging";
+import { registerRootComponent } from "expo";
+import useIosPush from "./hooks/useIosPush";
+import useAndroidPush from "./hooks/useAndroidPush";
+import App from "./App";
 
-import App from './App';
+const OS = Platform.OS;
 
-// registerRootComponent calls AppRegistry.registerComponent('main', () => App);
-// It also ensures that whether you load the app in Expo Go or in a native build,
-// the environment is set up appropriately
+// 백그라운드에서 푸쉬
+messaging().setBackgroundMessageHandler(async ({ notification }) => {
+  const iosPush = useIosPush();
+  const androidPush = useAndroidPush();
+  if (!notification) return;
+  const { title, body } = notification;
+  (OS === "ios" ? iosPush : androidPush)(title, body);
+});
+
 registerRootComponent(App);

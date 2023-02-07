@@ -16,10 +16,9 @@ import Icon from "react-native-vector-icons/Ionicons";
 import Modal from "../../layouts/Modal";
 import FindModal from "./FindModal";
 import sha256 from "sha256";
-import uuid from "react-native-uuid";
+import messaging from "@react-native-firebase/messaging";
 
 const OS = Platform.OS;
-const UUID = uuid.v4();
 
 const LoginScreen = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -30,6 +29,7 @@ const LoginScreen = (): JSX.Element => {
   const [MNG_PW, setMNG_PW] = useState<string>("");
   const [IS_AUTO_LOGIN, setIS_AUTO_LOGIN] = useState<boolean>(false);
   const [isPending, setIsPending] = useState<boolean>(false);
+  const [UUID, setUUID] = useState<string>("");
 
   // 로그인 유지 (로그인 정보 저장)
   const loginSave = () => {
@@ -91,12 +91,21 @@ const LoginScreen = (): JSX.Element => {
   };
 
   useEffect(() => {
+    messaging()
+      .getToken()
+      .then(setUUID)
+      .catch(() => setUUID(""));
+  }, []);
+
+  useEffect(() => {
+    if (!UUID) return;
+
     AsyncStorage.getItem("MNG").then((MNG) => {
       if (!MNG) return;
       let json = JSON.parse(MNG);
       submit(json?.MNG_ID ?? "", json?.MNG_PW ?? "");
     });
-  }, []);
+  }, [UUID]);
 
   return (
     <>

@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>689421777158-1f1umr7jh3grpl455toqvm7lbufumvmt.apps.googleusercontent.com</string>
+	<string>597038642642-5dftqbdklq3t263fa27qfkto1ipnkitq.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.689421777158-1f1umr7jh3grpl455toqvm7lbufumvmt</string>
+	<string>com.googleusercontent.apps.597038642642-5dftqbdklq3t263fa27qfkto1ipnkitq</string>
 	<key>API_KEY</key>
-	<string>AIzaSyA6Cf4yRhUv_3MEUhVY3zP6rzCDUsiITkg</string>
+	<string>AIzaSyAqa7RIuVZpk5_X4F3KzB_zhlPZz_NyyO8</string>
 	<key>GCM_SENDER_ID</key>
-	<string>689421777158</string>
+	<string>597038642642</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.jsw9330.feaglemanager</string>
+	<string>com.feagle-manager</string>
 	<key>PROJECT_ID</key>
-	<string>feagle</string>
+	<string>dr-care-51a48</string>
 	<key>STORAGE_BUCKET</key>
-	<string>feagle.appspot.com</string>
+	<string>dr-care-51a48.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:689421777158:ios:4384ba5b1c2488723a0687</string>
+	<string>1:597038642642:ios:90b6ef5dc457c3652c840b</string>
 </dict>
 </plist>

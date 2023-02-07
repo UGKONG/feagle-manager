@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Alert, Platform } from "react-native";
+import { Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components/native";
 import http from "../../functions/http";
@@ -16,13 +16,6 @@ import type { DeviceList } from "../../models";
 import type { ServiceBtnProps } from "./index.type";
 import Pending from "../../layouts/Pending";
 import Badge from "../../layouts/Badge";
-import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotificationAndroid from "react-native-push-notification";
-
-const OS = Platform.OS;
-
-const gasRawTitle = "가스부족";
-const gasRawText = "가스가 부족한 장비가 존재합니다.\n가스를 신청해주세요.";
 
 const HomeScreen = ({ navigation }: any): JSX.Element => {
   const dispatch = useDispatch();
@@ -39,10 +32,11 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
 
   // 가스 부족 (하나라도 부족하면 true)
   const isGasRaw = useMemo<boolean>(() => {
+    if (!user) false;
     let result = false;
     deviceList?.forEach((item) => {
-      let gas = item?.GAS_VAL;
-      if (gas <= 10) return (result = true);
+      let gas = item?.IS_GAS_DANGER ?? 0;
+      if (gas) return (result = true);
     });
     return result;
   }, [deviceList]);
@@ -95,37 +89,6 @@ const HomeScreen = ({ navigation }: any): JSX.Element => {
     navigation.navigate(name);
   };
 
-  // 푸쉬 테스트 (IOS)
-  const iosPush = (): void => {
-    PushNotificationIOS.scheduleLocalNotification({
-      alertTitle: gasRawTitle,
-      alertBody: gasRawText,
-      fireDate: new Date()?.toISOString(),
-    });
-  };
-
-  // 푸쉬 테스트 (Android)
-  const androidPush = (): void => {
-    PushNotificationAndroid.localNotification({
-      channelId: "push",
-      title: gasRawTitle,
-      message: gasRawText,
-      allowWhileIdle: true,
-    });
-  };
-
-  // 가스 없으면 알림
-  const gasRawPush = (): void => {
-    if (!isGasRaw || !user) return;
-
-    if (OS === "ios") {
-      iosPush();
-    } else if (OS === "android") {
-      androidPush();
-    }
-  };
-
-  useEffect(gasRawPush, [isGasRaw]);
   useEffect(getDeviceList, [user, isScreenChange]);
   useEffect(() => {
     navigation.setOptions({

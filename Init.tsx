@@ -1,6 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Platform } from "react-native";
 import http from "./functions/http";
 import useNavigation from "./hooks/useNavigation";
@@ -12,7 +12,6 @@ import PushNotificationIOS, {
   PushNotification,
   PushNotificationPermissions,
 } from "@react-native-community/push-notification-ios";
-import SplashScreen from "react-native-splash-screen";
 
 const Drawer = createDrawerNavigator();
 const OS = Platform.OS;
@@ -55,7 +54,7 @@ const Init = (): JSX.Element => {
 
   // 앱 초기화 (기본정보 저장)
   const init = (): void => {
-    SplashScreen.hide();
+    // SplashScreen.hide();
     if (OS === "ios") iosRequestPermissions();
 
     const icon = OS === "android" ? "🇰🇷" : "🇺🇸";
