@@ -163,6 +163,7 @@ android {
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
     }
+    namespace 'com.jsw9330.feaglemanager'
 
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->

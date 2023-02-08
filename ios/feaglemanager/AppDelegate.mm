@@ -42,7 +42,6 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  // [FIRApp configure];
   if ([FIRApp defaultApp] == nil) {
     [FIRApp configure];
   }
@@ -71,9 +70,9 @@ static NSString *const kRNConcurrentRoot = @"concurrentRoot";
 
   [super application:application didFinishLaunchingWithOptions:launchOptions];
 
-  [RNSplashScreen show];
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter]; // 추가
   center.delegate = self; // 추가
+  [RNSplashScreen show];
 
   return YES;
 }
