@@ -19,6 +19,12 @@ import sha256 from "sha256";
 import messaging from "@react-native-firebase/messaging";
 
 const OS = Platform.OS;
+type Form = {
+  MNG_ID: string;
+  MNG_PW: string;
+  OS: "ios" | "android" | "windows" | "macos" | "web";
+  UUID: string;
+};
 
 const LoginScreen = (): JSX.Element => {
   const dispatch = useDispatch();
@@ -32,17 +38,17 @@ const LoginScreen = (): JSX.Element => {
   const [UUID, setUUID] = useState<string>("");
 
   // 로그인 유지 (로그인 정보 저장)
-  const loginSave = () => {
-    AsyncStorage.setItem("MNG", JSON.stringify({ MNG_ID, MNG_PW }));
+  const loginSave = (saveData: Form) => {
+    AsyncStorage.setItem("MNG", JSON.stringify(saveData));
   };
 
   // 로그인 정보 전송
-  const submit = (id?: string, pw?: string): void => {
+  const submit = (currentForm?: Form): void => {
     setIsPending(true);
 
-    const form = {
-      MNG_ID: id ?? MNG_ID,
-      MNG_PW: sha256(pw ?? MNG_PW),
+    const form: Form = {
+      MNG_ID: currentForm?.MNG_ID ?? MNG_ID,
+      MNG_PW: currentForm?.MNG_PW ?? sha256(MNG_PW),
       OS,
       UUID,
     };
@@ -58,7 +64,7 @@ const LoginScreen = (): JSX.Element => {
         }
         dispatch({ type: "user", payload: data?.current });
 
-        if (IS_AUTO_LOGIN) loginSave();
+        if (IS_AUTO_LOGIN) loginSave(form);
       })
       .catch(() => {
         Alert.alert("로그인", "계정 정보가 없습니다.", undefined, {
@@ -102,8 +108,8 @@ const LoginScreen = (): JSX.Element => {
 
     AsyncStorage.getItem("MNG").then((MNG) => {
       if (!MNG) return;
-      let json = JSON.parse(MNG);
-      submit(json?.MNG_ID ?? "", json?.MNG_PW ?? "");
+      let json: Form = JSON.parse(MNG);
+      submit(json);
     });
   }, [UUID]);
 
