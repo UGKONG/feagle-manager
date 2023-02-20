@@ -54,9 +54,10 @@ export const StepGroup = styled.View`
   margin-bottom: 6px;
 `;
 export const StepNum = styled(Text)`
-  width: 40px;
+  width: 50px;
   margin-right: 4px;
   font-size: 14px;
+  white-space: nowrap;
 `;
 export const StepCol = styled.View``;
 export const StepItem = styled(Text)`

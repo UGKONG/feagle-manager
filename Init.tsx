@@ -54,7 +54,6 @@ const Init = (): JSX.Element => {
 
   // 앱 초기화 (기본정보 저장)
   const init = (): void => {
-    // SplashScreen.hide();
     if (OS === "ios") iosRequestPermissions();
 
     const icon = OS === "android" ? "🇰🇷" : "🇺🇸";
